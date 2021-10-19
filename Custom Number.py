@@ -2,13 +2,15 @@ from PIL import Image
 import numpy as np
 
 class NeuralNetwork(object):
-    def __init__(Self):
+    def __init__(Self): # Initialiser
         Self.Weights1 = np.load("Weight1.npy")
         Self.Weights2 = np.load("Weight2.npy")
         Self.Weights3 = np.load("Weight3.npy")
-        Self.Weights4 = np.load("Weight4.npy")
+        Self.Weights4 = np.load("Weight4.npy") # Load in all the weights
+        
+        # TODO - Add in Hidden Bias weights
 
-    def ForwardPropogation(Self, Input):
+    def ForwardPropogation(Self, Input): # Take an input and propogate it through the neural network
         Self.DotProduct1 = np.dot(Input, Self.Weights1)
         Self.Activated1 = Self.Sigmoid(Self.DotProduct1)     # Hidden Layer One
         Self.DotProduct2 = np.dot(Self.Activated1, Self.Weights2)
@@ -50,7 +52,7 @@ for i in range(28):
 
 Highest = 14
 Lowest = 14
-for x in range(len(NewPic)):
+for x in range(len(NewPic)): # Clean up the given image, ensuring it is not too close to one border
     for y in range(len(NewPic[x])):
         if NewPic[x][y] == 1 and Lowest > y:
             Lowest = y
@@ -65,7 +67,7 @@ for x in range(len(NewPic)):
 
 Change = 1
 
-while len(NewPic[1]) != 28:
+while len(NewPic[1]) != 28: # Make the image the right length by adding layers to the left and right
     if Change == 1:
         for x in range(len(NewPic)):
             NewPic[x].append(0)
@@ -76,7 +78,7 @@ while len(NewPic[1]) != 28:
             Change = 1
 
 
-while len(NewPic) != 28:
+while len(NewPic) != 28: # Make the image the right height by adding layers to the top and bottom
     if Change == 1:
         NewPic.insert(0,[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
         Change = -1
@@ -92,7 +94,7 @@ for x in range(len(NewPic)):
         if NewPic[x][y] == 0:
             String += " "
         else:
-            String +="@"
+            String +="@" # Used to "draw" the drawn number into the terminal
     print(String)
 
 FinalPic = []
@@ -103,4 +105,4 @@ for x in range(len(NewPic)):
 
 
 Prediction = np.argmax(AI.ForwardPropogation(np.reshape(FinalPic,[1,784])))
-print("Classified as:",Prediction)
+print("Classified as:",Prediction) # Print the prediction
